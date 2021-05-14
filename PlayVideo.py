@@ -4,28 +4,47 @@ from PyQt5.QtCore import QObject, pyqtSignal
 import pafy
 import vlc
 import threading
+from CheckVideoState import CheckVideoState
+
 class PlayVideo(threading.Thread,QtCore.QObject):
     finished = QtCore.pyqtSignal()
+
     def __init__(self,conn):
         QtCore.QObject.__init__(self)
         threading.Thread.__init__(self)
         self.conn = conn
         self.cur = self.conn.cursor()
-        self.url = None
-        self.player = None
-        self.urls = []
         self.thumbnails = []
+        self.urls = []
+        self.videos = []
+        self.bests = []
+        self.playUrls = []
+        self.medias = []
+        self.checkState = CheckVideoState()
 
     def run(self):
+        url = self.urls
+        for u in self.urls :
+            video = pafy.new(u)
+            self.videos.append(video)
 
-        video = pafy.new(self.url)
-        best = video.streams[0]
-        
-        playurl = best.url
+        for v in self.videos:
+            b = v.streams[0]
+            self.bests.append(b)
+        count = 0
+        for j in range(0,len(self.urls)):
+            playurl = self.bests[j].url
+            self.playUrls.append(playurl)
+            
+
         instance = vlc.Instance()
         self.player = instance.media_player_new()
-        Media = instance.media_new(playurl)
-        self.player.set_media(Media)
+        self.player.set_media_list(self.medialist)
+        self.medialist = instance.media_list_new()
+        for i in range(0,len(self.playUrls)):   
+            media = instance.media_new(self.playUrls[i])
+            # self.medias.append(media)
+            self.medialist.add_media(media)
         self.getThumbnails()
         self.finished.emit()
 
@@ -34,7 +53,6 @@ class PlayVideo(threading.Thread,QtCore.QObject):
         urls = self.cur.fetchall()
         for d in range (0,len(urls)):
             self.urls.append(urls[d][0])
-        self.url=urls[0][0]
 
     def getThumbnails(self):
         
@@ -44,4 +62,18 @@ class PlayVideo(threading.Thread,QtCore.QObject):
             self.thumbnails.append(str(value))
 
     def changeVolum(self,value):
+
         self.player.audio_set_volume(value)
+
+    def choiceVideo(self,state,mediaNum):
+        
+        self.player.set_media(self.medias[mediaNum])
+        self.player.play()
+
+    def playFirstUrl(self):
+
+        self.choiceVideo(state,0)
+
+    def endPlayer(self):
+        self.checkState.start(self.player)
+        

@@ -2,6 +2,7 @@ from os import get_inheritable
 from re import I
 import sys
 import urllib
+from vlc import State
 import gui
 import sqlite3
 from PyQt5.QtCore import pyqtSignal
@@ -11,6 +12,8 @@ from Registration import Registration
 from Playlist import Playlist
 from PlayVideo import PlayVideo
 import time
+
+
 class Main:
 
     def __init__(self):
@@ -155,7 +158,7 @@ class Main:
             self.plusButtons[i].setStyleSheet(ui.listViewStlye)
             self.plusButtons[i].setGeometry(QtCore.QRect(620, 10, 71, 61))
             self.plusButtons[i].clicked.connect(lambda state,x = i: self.clickPlusButton(state,x))
-            #i가 인식이 안댐 state
+            
     
     #영상 추가창
     def addUrlWindow(self,hidden):
@@ -170,9 +173,12 @@ class Main:
 
     def clickAddUrlButton(self):
         url = ui.addUrlWidget_name.text()
-        self.playlist.addUrlToDatabase(self.id,self.playlistName,url)
-        self.playlist_alarm("영상이 추가되었습니다")
-        ui.addUrlWidget_name.setText('')
+        if url == '':
+            self.playlist_alarm("url을 입력하세요")
+        else :
+            self.playlist.addUrlToDatabase(self.id,self.playlistName,url)
+            self.playlist_alarm("영상이 추가되었습니다")
+            ui.addUrlWidget_name.setText('')
     
 
     def clickListButton(self,state,index2): #로딩창 띄우다가 로딩 끝나면 시그널 받아서 위젯 2번으로 넘어가고 
@@ -185,11 +191,11 @@ class Main:
         self.playVideo.finished.connect(self.endLoading)
 
     def endLoading(self): 
+        ui.loadingWidget.setHidden(True)
         self.playVideo.player.set_hwnd(ui.videoWidget.winId())
         self.showThumbnail()
-        ui.loadingWidget.setHidden(True)
         ui.stackedWidget.setCurrentIndex(2)
-        self.playVideo.player.play()
+        self.playVideo.playFirstUrl()
         self.controlButton()
 
 #동영상 재생 페이지 
@@ -218,7 +224,7 @@ class Main:
             icon = QtGui.QIcon(pixmap)
             self.thumbnailButtons[m].setIcon(icon)
             self.thumbnailButtons[m].setIconSize(QtCore.QSize(232,131))
-            
+            self.thumbnailButtons[m].clicked.connect(lambda state, x = m: self.playVideo.choiceVideo(state,x))
 
     #조작버튼
     def controlButton(self):
@@ -236,7 +242,10 @@ class Main:
             ui.volumslider.setHidden(True)
             self.volumeClicked = False
 
-    
+    #다음 영상 자동재생
+    #영상 키로 10초 넘기기
+    #영상 없으면 오류표시
+    #뒤로가기
 if __name__ == "__main__":
     
     app = QtWidgets.QApplication(sys.argv)
