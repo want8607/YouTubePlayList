@@ -19,6 +19,11 @@ class Ui_MainWindow(object):
         self.plusIcon = QtGui.QPixmap("picture/plus.png")
         self.loadingGif = QtGui.QMovie("picture/loading.gif")
         
+        self.playButtonIcon = QtGui.QPixmap("picture/재생.png")
+        self.pauseButtonIcon = QtGui.QPixmap("picture/정지.png")
+        self.volumButtonIcon = QtGui.QPixmap("picture/음량.png")
+        self.minimizeButtonIcon = QtGui.QPixmap("picture/축소.png")
+        
     def setupUi(self):
         self.MainWindow = QtWidgets.QMainWindow()
         self.MainWindow.setObjectName("MainWindow")
@@ -238,31 +243,8 @@ class Ui_MainWindow(object):
         self.addList_text.setGeometry(QtCore.QRect(50,70,601,61))
         self.addList_text.setStyleSheet(self.noticeStyle)
         self.addList_text.setAlignment(QtCore.Qt.AlignCenter)
-
-    #재생 페이지    
-        self.playPage = QtWidgets.QWidget()
-        self.playPage.setObjectName("playPage")
-
-        self.videoWidget = QtWidgets.QWidget(self.playPage)
-        self.videoWidget.setGeometry(QtCore.QRect(20,30,1280,720))
-
-
-        self.thumbnailListView = QtWidgets.QListView(self.playPage)
-        self.thumbnailListView.setGeometry(QtCore.QRect(1325,100,271,771))
-        self.thumbnailListView.setStyleSheet(self.pageBackgroundColor+"border:#404040")
-
-        
-
-
-        self.stackedWidget.addWidget(self.playPage)
-        self.MainWindow.setCentralWidget(self.centralwidget)
-
-        self.retranslateUi()
-        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
-        
-        self.MainWindow.show()
-
-    #로딩 창
+       
+        #로딩 창
         self.opacityEffect3 = QtWidgets.QGraphicsOpacityEffect()
         self.opacityEffect3.setOpacity(0.6)
         self.loadingWidget = QtWidgets.QLabel(self.playlistPage)
@@ -272,6 +254,59 @@ class Ui_MainWindow(object):
         self.loadingWidget.setHidden(True)
         self.loadingWidget.setMovie(self.loadingGif)
         self.loadingGif.start()
+
+    #재생 페이지    
+        self.playPage = QtWidgets.QWidget()
+        self.playPage.setObjectName("playPage")
+
+        self.videoWidget = QtWidgets.QWidget(self.playPage)
+        self.videoWidget.setGeometry(QtCore.QRect(20,30,1280,720))
+
+        self.thumbnailListView = QtWidgets.QListView(self.playPage)
+        self.thumbnailListView.setGeometry(QtCore.QRect(1325,100,271,771))
+        self.thumbnailListView.setStyleSheet(self.pageBackgroundColor+"border:#404040")
+
+        #영상 control
+        self.playButton = QtWidgets.QPushButton(self.playPage)
+        self.playButton.setGeometry(QtCore.QRect(590,770,60,60))
+        self.playButton.setIcon(QtGui.QIcon(self.playButtonIcon))
+        self.playButton.setIconSize(QtCore.QSize(100,100))
+
+        self.pauseButton = QtWidgets.QPushButton(self.playPage)
+        self.pauseButton.setGeometry(QtCore.QRect(670,770,60,60))
+        self.pauseButton.setIcon(QtGui.QIcon(self.pauseButtonIcon))
+        self.pauseButton.setIconSize(QtCore.QSize(100,100))
+
+        self.volumButton = QtWidgets.QPushButton(self.playPage)
+        self.volumButton.setGeometry(QtCore.QRect(1170,770,60,60))
+        self.volumButton.setIcon(QtGui.QIcon(self.volumButtonIcon))
+        self.volumButton.setIconSize(QtCore.QSize(100,100))
+
+        self.volumslider = QtWidgets.QSlider(self.playPage)
+        self.volumslider.setGeometry(QtCore.QRect(1190,600,22,160))
+        self.volumslider.setRange(0,100)
+        # self.volumslider.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.volumslider.setHidden(True)
+        self.volumslider.setSliderPosition(100)
+        self.minimizeButton = QtWidgets.QPushButton(self.playPage)
+        self.minimizeButton.setGeometry(QtCore.QRect(1240,770,60,60))
+        self.minimizeButton.setIcon(QtGui.QIcon(self.minimizeButtonIcon))
+        self.minimizeButton.setIconSize(QtCore.QSize(100,100))
+
+        self.goBackToPlaylistButton = QtWidgets.QPushButton(self.playPage)
+        self.goBackToPlaylistButton.setGeometry(QtCore.QRect(1442,20,131,41))
+        self.goBackToPlaylistButton.setStyleSheet(self.buttonStyle)
+        self.goBackToPlaylistButton.setText("뒤로가기")
+
+        self.stackedWidget.addWidget(self.playPage)
+        self.MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
+        
+        self.MainWindow.show()
+
+    
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate

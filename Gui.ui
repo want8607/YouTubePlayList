@@ -456,6 +456,71 @@
        <string>PushButton</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushButton_12">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>770</y>
+        <width>60</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_13">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>770</y>
+        <width>60</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_14">
+      <property name="geometry">
+       <rect>
+        <x>1240</x>
+        <y>770</y>
+        <width>60</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_15">
+      <property name="geometry">
+       <rect>
+        <x>1170</x>
+        <y>770</y>
+        <width>60</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+     <widget class="QSlider" name="verticalSlider">
+      <property name="geometry">
+       <rect>
+        <x>1190</x>
+        <y>600</y>
+        <width>22</width>
+        <height>160</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

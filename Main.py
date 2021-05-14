@@ -1,4 +1,5 @@
 from os import get_inheritable
+from re import I
 import sys
 import urllib
 import gui
@@ -189,6 +190,8 @@ class Main:
         ui.loadingWidget.setHidden(True)
         ui.stackedWidget.setCurrentIndex(2)
         self.playVideo.player.play()
+        self.controlButton()
+
 #동영상 재생 페이지 
 
     def showThumbnail(self):
@@ -218,9 +221,22 @@ class Main:
             
 
     #조작버튼
-    
+    def controlButton(self):
+        ui.pauseButton.clicked.connect(self.playVideo.player.pause)
+        ui.playButton.clicked.connect(self.playVideo.player.play)
+        self.volumeClicked = False
+        ui.volumButton.clicked.connect(self.clickVolumButton)
+        ui.volumslider.valueChanged.connect(self.playVideo.changeVolum)
 
-        
+    def clickVolumButton(self):
+        if self.volumeClicked == False:
+            ui.volumslider.setHidden(False)
+            self.volumeClicked = True
+        elif self.volumeClicked == True:
+            ui.volumslider.setHidden(True)
+            self.volumeClicked = False
+
+    
 if __name__ == "__main__":
     
     app = QtWidgets.QApplication(sys.argv)

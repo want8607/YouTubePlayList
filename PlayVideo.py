@@ -42,3 +42,5 @@ class PlayVideo(threading.Thread,QtCore.QObject):
             value = thumbnail.getbestthumb()
             self.thumbnails.append(str(value))
 
+    def changeVolum(self,value):
+        self.player.audio_set_volume(value)
