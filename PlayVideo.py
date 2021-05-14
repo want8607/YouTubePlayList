@@ -20,6 +20,7 @@ class PlayVideo(threading.Thread,QtCore.QObject):
 
         video = pafy.new(self.url)
         best = video.streams[0]
+        
         playurl = best.url
         instance = vlc.Instance()
         self.player = instance.media_player_new()
