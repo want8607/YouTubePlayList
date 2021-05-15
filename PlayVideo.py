@@ -1,11 +1,12 @@
 
 from PyQt5 import QtCore
 from PyQt5.QtCore import QObject, pyqtSignal
+from pynput import keyboard
+from KeyBoard import KeyBoard
 import pafy
 import vlc
 import threading
 import time
-
 
 class PlayVideo(threading.Thread,QtCore.QObject):
     finished = QtCore.pyqtSignal()
@@ -28,6 +29,8 @@ class PlayVideo(threading.Thread,QtCore.QObject):
     def run(self):
         instance = vlc.Instance()
         self.player = instance.media_player_new()
+        keyboard = KeyBoard(self.player)
+        keyboard.getKeyBoard()
         while True:
             print(self.goBackToPlaylist)
             if self.goBackToPlaylist == False:
@@ -59,6 +62,7 @@ class PlayVideo(threading.Thread,QtCore.QObject):
                         self.autoNext(self.q)
                         self.q = self.selectedNum
                         self.clicked =False
+                        print(3)
             elif self.goBackToPlaylist == True:
                 time.sleep(0.5)
                 
@@ -69,14 +73,15 @@ class PlayVideo(threading.Thread,QtCore.QObject):
     def autoNext(self,t):
 
         for m in range(t,len(self.medias)):
-
+            print(1)
             self.player.set_media(self.medias[m])
             a = True
             self.player.play()
+            print(4)
             while a:
                 time.sleep(0.5)
                 if self.goBackToPlaylist == True: #뒤로가기 클릭
-                    
+                    print(6)
                     self.player.stop()
                     a = False
                     clicked2 = True
@@ -128,4 +133,3 @@ class PlayVideo(threading.Thread,QtCore.QObject):
         self.clicked = False
         self.selectedNum = 0
     
-#렉걸리는거 해결

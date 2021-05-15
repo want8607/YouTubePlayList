@@ -174,11 +174,13 @@ class Main:
             self.listButtons.append(QtWidgets.QPushButton(self.playlistWidget[i]))
             self.listButtons[i].setText(self.playlist.playlists[i][0])
             self.listButtons[i].setStyleSheet(ui.listViewStlye)
+            self.listButtons[i].setFocusPolicy(QtCore.Qt.NoFocus)
             self.listButtons[i].setGeometry(QtCore.QRect(45, 10, 571, 61))
             self.listButtons[i].clicked.connect(lambda state,x = i:self.clickListButton(state,x))
             self.plusButtons.append(QtWidgets.QPushButton(self.playlistWidget[i]))
             self.plusButtons[i].setIcon(QtGui.QIcon(ui.plusIcon))
             self.plusButtons[i].setStyleSheet(ui.listViewStlye)
+            self.plusButtons[i].setFocusPolicy(QtCore.Qt.NoFocus)
             self.plusButtons[i].setGeometry(QtCore.QRect(620, 10, 71, 61))
             self.plusButtons[i].clicked.connect(lambda state,x = i: self.clickPlusButton(state,x))
             
@@ -207,12 +209,15 @@ class Main:
             ui.addUrlWidget_name.setText('')
     
 
-    def clickListButton(self,state,index2): #로딩창 띄우다가 로딩 끝나면 시그널 받아서 위젯 2번으로 넘어가고 
+    def clickListButton(self,state,index2):
         
-        ui.loadingWidget.setHidden(False)
         self.playlistName = self.playlist.playlists[index2][0]
         self.playVideo.getUrl(self.id,self.playlistName)
-        self.playVideo.goBackToPlaylist = False
+        if len(self.playVideo.urls) == 0:
+            self.playlist_alarm("영상을 추가해 주세요")
+        else:
+            ui.loadingWidget.setHidden(False)
+            self.playVideo.goBackToPlaylist = False
         
     def endLoading(self): 
 
@@ -253,6 +258,7 @@ class Main:
             pixmap = QtGui.QPixmap(image.scaled(232,131))
             icon = QtGui.QIcon(pixmap)
             self.thumbnailButtons[m].setIcon(icon)
+            self.thumbnailButtons[m].setFocusPolicy(QtCore.Qt.NoFocus)
             self.thumbnailButtons[m].setIconSize(QtCore.QSize(232,131))
             self.thumbnailButtons[m].clicked.connect(lambda state, x = m: self.playVideo.choiceVideo(state,x))
 
@@ -272,9 +278,7 @@ class Main:
             ui.volumslider.setHidden(True)
             self.volumeClicked = False
 
-    #ui만 바꾸기
-    #영상 키로 10초 넘기기
-    # 영상 없으면 오류표시
+    #ui만 바꾸기    
     
 if __name__ == "__main__":
     

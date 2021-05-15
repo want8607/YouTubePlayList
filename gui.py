@@ -18,7 +18,6 @@ class Ui_MainWindow(object):
         self.listViewStlye = "font-size:16pt; font-family: 나눔스퀘어_ac; background-color:white;"
         self.plusIcon = QtGui.QPixmap("picture/plus.png")
         self.loadingGif = QtGui.QMovie("picture/loading.gif")
-        
         self.playButtonIcon = QtGui.QPixmap("picture/재생.png")
         self.pauseButtonIcon = QtGui.QPixmap("picture/정지.png")
         self.volumButtonIcon = QtGui.QPixmap("picture/음량.png")
@@ -34,6 +33,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
 
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
+        self.stackedWidget.setFocusPolicy(QtCore.Qt.NoFocus)
         self.stackedWidget.setGeometry(QtCore.QRect(0, 0, 1600, 900))
         self.stackedWidget.setObjectName("stackedWidget")
     
@@ -64,12 +64,14 @@ class Ui_MainWindow(object):
         self.logInButton = QtWidgets.QPushButton(self.loginPage)
         self.logInButton.setGeometry(QtCore.QRect(650, 730, 300, 51))
         self.logInButton.setText("로그인")
+        self.logInButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.logInButton.setObjectName("logInButton")
         self.logInButton.setStyleSheet(self.buttonStyle)
         
         self.registButton = QtWidgets.QPushButton(self.loginPage)
         self.registButton.setGeometry(QtCore.QRect(650, 790, 300, 51))
         self.registButton.setText("회원가입")
+        self.registButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.registButton.setObjectName("registButton")
         self.registButton.setStyleSheet(self.buttonStyle)
         #알림창
@@ -80,6 +82,7 @@ class Ui_MainWindow(object):
 
         self.log_okButton = QtWidgets.QPushButton(self.log_alarm)
         self.log_okButton.setGeometry(QtCore.QRect(290,210,121,40))
+        self.log_okButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.log_okButton.setStyleSheet(self.buttonStyle)
         self.log_okButton.setText("확인")
 
@@ -127,11 +130,13 @@ class Ui_MainWindow(object):
 
         self.regist_registButton = QtWidgets.QPushButton(self.registWidget)
         self.regist_registButton.setGeometry(QtCore.QRect(370,390,150,50))
+        self.regist_registButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.regist_registButton.setStyleSheet(self.buttonStyle)
         self.regist_registButton.setText("회원가입")
 
         self.regist_exitButton = QtWidgets.QPushButton(self.registWidget)
         self.regist_exitButton.setGeometry(QtCore.QRect(809,10,81,50))
+        self.regist_exitButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.regist_exitButton.setStyleSheet(self.buttonStyle)
         self.regist_exitButton.setText("닫기")
 
@@ -143,6 +148,7 @@ class Ui_MainWindow(object):
         
         self.regist_okButton = QtWidgets.QPushButton(self.regist_alarm)
         self.regist_okButton.setGeometry(QtCore.QRect(290,200,121,40))
+        self.regist_okButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.regist_okButton.setStyleSheet(self.buttonStyle)
         self.regist_okButton.setText("확인")
 
@@ -159,11 +165,13 @@ class Ui_MainWindow(object):
 
         self.addPlaylistButton = QtWidgets.QPushButton(self.playlistPage)
         self.addPlaylistButton.setGeometry(QtCore.QRect(680,760,240,40))
+        self.addPlaylistButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.addPlaylistButton.setStyleSheet(self.buttonStyle)
         self.addPlaylistButton.setText("재생목록 추가")
 
         self.logoutButton = QtWidgets.QPushButton(self.playlistPage)
         self.logoutButton.setGeometry(QtCore.QRect(1430,30,120,40))
+        self.logoutButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.logoutButton.setStyleSheet(self.buttonStyle)
         self.logoutButton.setText("로그아웃")
 
@@ -174,7 +182,7 @@ class Ui_MainWindow(object):
         self.playlistView = QtWidgets.QListView(self.playlistPage)
         self.playlistView.setGeometry(QtCore.QRect(435,150,730,561))
         self.playlistView.setStyleSheet(self.pageBackgroundColor+"border:#404040")
-        # self.playlistView.setSpacing(6)
+        
 
         #재생목록 추가창
         self.opacityEffect2 = QtWidgets.QGraphicsOpacityEffect()
@@ -221,11 +229,13 @@ class Ui_MainWindow(object):
         self.addUrlWidget_close = QtWidgets.QPushButton(self.addUrlWidget)
         self.addUrlWidget_close.setGeometry(QtCore.QRect(684,10,91,31))
         self.addUrlWidget_close.setStyleSheet(self.buttonStyle)
+        self.addUrlWidget_close.setFocusPolicy(QtCore.Qt.NoFocus)
         self.addUrlWidget_close.setText("닫기")
 
         self.addUrlWidget_add = QtWidgets.QPushButton(self.addUrlWidget)
         self.addUrlWidget_add.setGeometry(QtCore.QRect(590,80,171,41))
         self.addUrlWidget_add.setStyleSheet(self.buttonStyle)
+        self.addUrlWidget_add.setFocusPolicy(QtCore.Qt.NoFocus)
         self.addUrlWidget_add.setText("영상추가")
 
         #알림창
@@ -236,6 +246,7 @@ class Ui_MainWindow(object):
         
         self.addList_okButton = QtWidgets.QPushButton(self.addList_alarm)
         self.addList_okButton.setGeometry(QtCore.QRect(290,200,121,40))
+        self.addList_okButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.addList_okButton.setStyleSheet(self.buttonStyle)
         self.addList_okButton.setText("확인")
 
@@ -269,32 +280,38 @@ class Ui_MainWindow(object):
         #영상 control
         self.playButton = QtWidgets.QPushButton(self.playPage)
         self.playButton.setGeometry(QtCore.QRect(590,770,60,60))
+        self.playButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.playButton.setIcon(QtGui.QIcon(self.playButtonIcon))
         self.playButton.setIconSize(QtCore.QSize(100,100))
 
         self.pauseButton = QtWidgets.QPushButton(self.playPage)
         self.pauseButton.setGeometry(QtCore.QRect(670,770,60,60))
+        self.pauseButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pauseButton.setIcon(QtGui.QIcon(self.pauseButtonIcon))
         self.pauseButton.setIconSize(QtCore.QSize(100,100))
 
         self.volumButton = QtWidgets.QPushButton(self.playPage)
         self.volumButton.setGeometry(QtCore.QRect(1170,770,60,60))
+        self.volumButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.volumButton.setIcon(QtGui.QIcon(self.volumButtonIcon))
         self.volumButton.setIconSize(QtCore.QSize(100,100))
 
         self.volumslider = QtWidgets.QSlider(self.playPage)
         self.volumslider.setGeometry(QtCore.QRect(1190,600,22,160))
         self.volumslider.setRange(0,100)
-        # self.volumslider.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.volumslider.setFocusPolicy(QtCore.Qt.NoFocus)
         self.volumslider.setHidden(True)
         self.volumslider.setSliderPosition(100)
+
         self.minimizeButton = QtWidgets.QPushButton(self.playPage)
         self.minimizeButton.setGeometry(QtCore.QRect(1240,770,60,60))
+        self.minimizeButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.minimizeButton.setIcon(QtGui.QIcon(self.minimizeButtonIcon))
         self.minimizeButton.setIconSize(QtCore.QSize(100,100))
 
         self.goBackToPlaylistButton = QtWidgets.QPushButton(self.playPage)
         self.goBackToPlaylistButton.setGeometry(QtCore.QRect(1442,20,131,41))
+        self.goBackToPlaylistButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.goBackToPlaylistButton.setStyleSheet(self.buttonStyle)
         self.goBackToPlaylistButton.setText("뒤로가기")
 
