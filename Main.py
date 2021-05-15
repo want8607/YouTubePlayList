@@ -1,4 +1,4 @@
-from os import get_inheritable
+from os import get_inheritable, terminal_size
 from re import I
 import sys
 import urllib
@@ -24,12 +24,15 @@ class Main:
         
 
 #데이터베이스 연결    
+
     def connectDatabase(self):
+
         self.conn = sqlite3.connect("week8.db")
         self.cur = self.conn.cursor()           
         
 #초기페이지
     def loginPage(self):
+
         ui.stackedWidget.setCurrentIndex(0)
         ui.regist_exitButton.clicked.connect(lambda : self.registWindow(True))
         ui.registButton.clicked.connect(lambda: self.registWindow(False))
@@ -37,10 +40,12 @@ class Main:
         ui.logInButton.clicked.connect(self.loginProcess)
 
     def registWindow(self,a):
+
         ui.opacityWidget.setHidden(a)
         ui.registWidget.setHidden(a)
 
     def loginProcess(self):
+
         self.id = ui.log_idInput.text()
         password = ui.log_passInput.text()
         self.login = Login(self.conn)
@@ -51,14 +56,17 @@ class Main:
             self.showList()
         elif self.login.loginResult == 2 :
             self.login_alarm("아이디 혹은 비밀번호를 다시 입력해주세요")
+    
     #아이디 알림
     def login_alarm(self,text):
+
         ui.log_alarm.setHidden(False)
         ui.log_okButton.clicked.connect(lambda : ui.log_alarm.setHidden(True))
         ui.log_text.setText(text)
 #회원가입
         
     def registrate(self):
+
         regist_id = ui.regist_idInput.text()
         regist_pass = ui.regist_passInput.text()
         regist_pass2 = ui.regist_passInput2.text()
@@ -86,25 +94,36 @@ class Main:
         
     #회원가입 알림창
     def regist_alarm(self,text):
+
         ui.regist_alarm.setHidden(False)
         ui.regist_text.setText(text)
         ui.regist_okButton.clicked.connect(lambda : ui.regist_alarm.setHidden(True))
 
 #재생목록
     def playlistPage(self):
+
         ui.logoutButton.clicked.connect(self.logout)
         ui.addPlaylistButton.clicked.connect(lambda : self.addPlaylistWindow(False))
         ui.addListWidget_close.clicked.connect(lambda : self.addPlaylistWindow(True))
         ui.addListWidget_add.clicked.connect(self.addPlaylist)
         ui.addUrlWidget_close.clicked.connect(lambda: self.addUrlWindow(True))
+        ui.goBackToPlaylistButton.clicked.connect(self.goBackToPlaylist)
+        self.playVideo = PlayVideo(self.conn)
+        self.playVideo.setDaemon(True)
+        self.playVideo.goBackToPlaylist = True
+        self.playVideo.start()
+        self.playVideo.finished.connect(self.endLoading)
+        
     #로그아웃
     def logout(self):
+
         ui.log_passInput.setText('')
         ui.log_idInput.setText('')
         ui.stackedWidget.setCurrentIndex(0)
         
     #플레이리스트 생성
     def addPlaylistWindow(self,a):
+
         ui.opacityWidget2.setHidden(a)
         ui.addListWidget.setHidden(a)
         ui.addListWidget_name.setText('')
@@ -126,12 +145,14 @@ class Main:
                 
     #플레이리스트 알림창
     def playlist_alarm(self,text):
+
         ui.addList_alarm.setHidden(False)
         ui.addList_text.setText(text)
         ui.addList_okButton.clicked.connect(lambda : ui.addList_alarm.setHidden(True))
     
     #플레이리스트 LISTVIEW
     def showList(self):
+
         self.playlist.getPlaylist(self.id)
         model = QtGui.QStandardItemModel(ui.playlistView)
         ui.playlistView.setModel(model)
@@ -141,8 +162,10 @@ class Main:
             item.setSizeHint(QtCore.QSize(640,80))        
             model.appendRow(item)
             ui.playlistView.setIndexWidget(item.index(),self.playlistWidget[j]) 
+    
     #버튼 생성
     def produceButton(self):
+
         self.listButtons = []
         self.plusButtons = []
         self.playlistWidget = []
@@ -162,16 +185,19 @@ class Main:
     
     #영상 추가창
     def addUrlWindow(self,hidden):
+
         ui.opacityWidget2.setHidden(hidden)
         ui.addUrlWidget.setHidden(hidden)
         ui.addUrlWidget_name.setText('')
 
     def clickPlusButton(self,state,index1):
+
         self.addUrlWindow(False)
         self.playlistName = self.playlist.playlists[index1][0]
         ui.addUrlWidget_add.clicked.connect(self.clickAddUrlButton)
 
     def clickAddUrlButton(self):
+
         url = ui.addUrlWidget_name.text()
         if url == '':
             self.playlist_alarm("url을 입력하세요")
@@ -184,20 +210,18 @@ class Main:
     def clickListButton(self,state,index2): #로딩창 띄우다가 로딩 끝나면 시그널 받아서 위젯 2번으로 넘어가고 
         
         ui.loadingWidget.setHidden(False)
-        self.playVideo = PlayVideo(self.conn)
         self.playlistName = self.playlist.playlists[index2][0]
         self.playVideo.getUrl(self.id,self.playlistName)
-        self.playVideo.start()
-        self.playVideo.finished.connect(self.endLoading)
-
+        self.playVideo.goBackToPlaylist = False
+        
     def endLoading(self): 
-        ui.loadingWidget.setHidden(True)
+
         self.playVideo.player.set_hwnd(ui.videoWidget.winId())
         self.showThumbnail()
         ui.stackedWidget.setCurrentIndex(2)
-        # self.playVideo.playFirstUrl()
+        ui.loadingWidget.setHidden(True)
         self.controlButton()
-
+        
 #동영상 재생 페이지 
 
     def showThumbnail(self):
@@ -210,6 +234,12 @@ class Main:
             item2.setSizeHint(QtCore.QSize(232,141))        
             model.appendRow(item2)
             ui.thumbnailListView.setIndexWidget(item2.index(),self.thumbnailButtons[n]) 
+    
+    #뒤로가기
+    def goBackToPlaylist(self):
+        self.playVideo.goBackToPlaylist = True
+        ui.stackedWidget.setCurrentIndex(1)
+        self.playVideo.initPlayer()        
 
     #버튼 생성
     def produceThumbnail(self):
@@ -242,10 +272,10 @@ class Main:
             ui.volumslider.setHidden(True)
             self.volumeClicked = False
 
-    #스레드 종료(ui만 바꾸기)
+    #ui만 바꾸기
     #영상 키로 10초 넘기기
-    #영상 없으면 오류표시
-    #뒤로가기
+    # 영상 없으면 오류표시
+    
 if __name__ == "__main__":
     
     app = QtWidgets.QApplication(sys.argv)
