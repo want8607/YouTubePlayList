@@ -4,6 +4,7 @@ from PyQt5.QtCore import QObject, pyqtSignal
 import pafy
 import vlc
 import threading
+import time
 from CheckVideoState import CheckVideoState
 
 class PlayVideo(threading.Thread,QtCore.QObject):
@@ -21,6 +22,7 @@ class PlayVideo(threading.Thread,QtCore.QObject):
         self.playUrls = []
         self.medias = []
         self.checkState = CheckVideoState()
+        self.clicked = False
 
     def run(self):
         url = self.urls
@@ -39,14 +41,39 @@ class PlayVideo(threading.Thread,QtCore.QObject):
 
         instance = vlc.Instance()
         self.player = instance.media_player_new()
-        self.player.set_media_list(self.medialist)
-        self.medialist = instance.media_list_new()
         for i in range(0,len(self.playUrls)):   
             media = instance.media_new(self.playUrls[i])
-            # self.medias.append(media)
-            self.medialist.add_media(media)
+            self.medias.append(media)
+
         self.getThumbnails()
         self.finished.emit()
+        self.q = 0
+        while True:
+            self.autoNext(self.q)
+            self.q = self.selectedNum
+            self.clicked =False
+
+    def autoNext(self,t):
+
+        for m in range(t,len(self.medias)):
+
+            self.player.set_media(self.medias[m])
+            a = True
+            self.player.play()
+            while a:
+                time.sleep(0.5)               
+                if self.clicked == True:
+                    print("dddddddddd")
+                    a = False
+                    clicked2 = True
+                if str(self.player.get_state()) == 'State.Ended':
+                    a = False
+                    clicked2 = False
+            if clicked2 == True:
+                break        
+            if m == len(self.medias)-1 and clicked2 == False:
+                    self.selectedNum = 0
+                
 
     def getUrl(self,id,playlistName):
         self.cur.execute("SELECT url FROM video WHERE id='"+id+"' AND playlistName='"+playlistName+"';")
@@ -67,13 +94,17 @@ class PlayVideo(threading.Thread,QtCore.QObject):
 
     def choiceVideo(self,state,mediaNum):
         
-        self.player.set_media(self.medias[mediaNum])
-        self.player.play()
+        self.clicked = True
+        self.selectedNum = mediaNum
+        
+    
+    # def playAnother(self,num):
+        
+    #     self.q = num
 
-    def playFirstUrl(self):
-
-        self.choiceVideo(state,0)
 
     def endPlayer(self):
         self.checkState.start(self.player)
-        
+
+#리스트 클릭하면 신호주고 동영상 여기 스레드에서 계속 실행하면서 연속재생 해결
+#중요한건 다른 영상 눌렀을 때 다른 미디어 셋팅하고 동영상을 for 문을 탈출해서 실행시켜야함

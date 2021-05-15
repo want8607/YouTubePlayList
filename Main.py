@@ -195,7 +195,7 @@ class Main:
         self.playVideo.player.set_hwnd(ui.videoWidget.winId())
         self.showThumbnail()
         ui.stackedWidget.setCurrentIndex(2)
-        self.playVideo.playFirstUrl()
+        # self.playVideo.playFirstUrl()
         self.controlButton()
 
 #동영상 재생 페이지 
@@ -242,7 +242,7 @@ class Main:
             ui.volumslider.setHidden(True)
             self.volumeClicked = False
 
-    #다음 영상 자동재생
+    #스레드 종료(ui만 바꾸기)
     #영상 키로 10초 넘기기
     #영상 없으면 오류표시
     #뒤로가기
