@@ -113,6 +113,7 @@ class Main:
         self.playVideo.goBackToPlaylist = True
         self.playVideo.start()
         self.playVideo.finished.connect(self.endLoading)
+        self.playVideo.played.connect(self.chageTitle)
         
     #로그아웃
     def logout(self):
@@ -213,6 +214,7 @@ class Main:
         
         self.playlistName = self.playlist.playlists[index2][0]
         self.playVideo.getUrl(self.id,self.playlistName)
+
         if len(self.playVideo.urls) == 0:
             self.playlist_alarm("영상을 추가해 주세요")
         else:
@@ -269,6 +271,14 @@ class Main:
         self.volumeClicked = False
         ui.volumButton.clicked.connect(self.clickVolumButton)
         ui.volumslider.valueChanged.connect(self.playVideo.changeVolum)
+        ui.minimizeButton.clicked.connect(self.clickMiniButton)
+        #최소화창    
+        ui.pauseButton2.clicked.connect(self.playVideo.player.pause)
+        ui.playButton2.clicked.connect(self.playVideo.player.play)
+        ui.maximizeButton.clicked.connect(self.clickMaxiButton)
+        ui.nextButton.clicked.connect(self.clickNextButton)
+        ui.lastButton.clicked.connect(self.clickLastButton)
+        
 
     def clickVolumButton(self):
         if self.volumeClicked == False:
@@ -278,8 +288,33 @@ class Main:
             ui.volumslider.setHidden(True)
             self.volumeClicked = False
 
-    #ui만 바꾸기    
+    #제목바꾸기
+    def chageTitle(self):
+        if len(self.playVideo.title) > 23:
+            ui.videoTitle.setText(self.playVideo.title[:23]+"...")
+        else:
+            ui.videoTitle.setText(self.playVideo.title)
+    #최소화
+    def clickMiniButton(self):
+        ui.MainWindow.hide()
+        ui.MainWindow2.show()
+
+    #최대화
+    def clickMaxiButton(self):
+        ui.MainWindow2.hide()
+        ui.MainWindow.show()
+
+    #다음영상
+    def clickNextButton(self):
+        self.playVideo.clickNextButton()
     
+    #이전영상
+    def clickLastButton(self):
+        self.playVideo.clickLastButton()
+
+    #ui만 바꾸기    
+    #재생목록 삭제
+    #비디오 삭제
 if __name__ == "__main__":
     
     app = QtWidgets.QApplication(sys.argv)

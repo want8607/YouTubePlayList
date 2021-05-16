@@ -21,7 +21,10 @@ class Ui_MainWindow(object):
         self.playButtonIcon = QtGui.QPixmap("picture/재생.png")
         self.pauseButtonIcon = QtGui.QPixmap("picture/정지.png")
         self.volumButtonIcon = QtGui.QPixmap("picture/음량.png")
+        self.nextButtonIcon = QtGui.QPixmap("picture/다음.png")
+        self.lastButtonIcon = QtGui.QPixmap("picture/이전.png")
         self.minimizeButtonIcon = QtGui.QPixmap("picture/축소.png")
+        self.maximizeButtonIcon = QtGui.QPixmap("picture/확대.png")
         
     def setupUi(self):
         self.MainWindow = QtWidgets.QMainWindow()
@@ -323,7 +326,48 @@ class Ui_MainWindow(object):
         
         self.MainWindow.show()
 
+        #최소화화면
+        self.MainWindow2 = QtWidgets.QMainWindow()
+        self.MainWindow2.setFixedSize(821,121)
+        self.MainWindow2.setStyleSheet(self.pageBackgroundColor)
+        self.MainWindow2.hide()
+        self.centralwidget2 = QtWidgets.QWidget(self.MainWindow2)
+        self.centralwidget2.setGeometry(QtCore.QRect(0,0,821,121))
+        
+        self.videoTitle = QtWidgets.QLabel(self.centralwidget2)
+        self.videoTitle.setGeometry(QtCore.QRect(10,34,381,51))
+        self.videoTitle.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.videoTitle.setStyleSheet(self.inputLineStyle)
     
+        self.playButton2 = QtWidgets.QPushButton(self.centralwidget2)
+        self.playButton2.setGeometry(QtCore.QRect(500,30,60,60))
+        self.playButton2.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.playButton2.setIcon(QtGui.QIcon(self.playButtonIcon))
+        self.playButton2.setIconSize(QtCore.QSize(100,100))
+
+        self.pauseButton2 = QtWidgets.QPushButton(self.centralwidget2)
+        self.pauseButton2.setGeometry(QtCore.QRect(580,30,60,60))
+        self.pauseButton2.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.pauseButton2.setIcon(QtGui.QIcon(self.pauseButtonIcon))
+        self.pauseButton2.setIconSize(QtCore.QSize(100,100))
+
+        self.lastButton = QtWidgets.QPushButton(self.centralwidget2)
+        self.lastButton.setGeometry(QtCore.QRect(420,30,60,60))
+        self.lastButton.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.lastButton.setIcon(QtGui.QIcon(self.lastButtonIcon))
+        self.lastButton.setIconSize(QtCore.QSize(100,100))
+
+        self.nextButton = QtWidgets.QPushButton(self.centralwidget2)
+        self.nextButton.setGeometry(QtCore.QRect(660,30,60,60))
+        self.nextButton.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.nextButton.setIcon(QtGui.QIcon(self.nextButtonIcon))
+        self.nextButton.setIconSize(QtCore.QSize(100,100))
+
+        self.maximizeButton = QtWidgets.QPushButton(self.centralwidget2)
+        self.maximizeButton.setGeometry(QtCore.QRect(740,30,60,60))
+        self.maximizeButton.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.maximizeButton.setIcon(QtGui.QIcon(self.maximizeButtonIcon))
+        self.maximizeButton.setIconSize(QtCore.QSize(100,100))
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
