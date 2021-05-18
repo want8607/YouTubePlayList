@@ -3,7 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def __init__(self):
         QtGui.QFontDatabase.addApplicationFont("Nanumsquare_ac_TTF/Nanumsquare_acR.ttf")
-
+        
         self.buttonStyle = "color: white;background-color: #D83030; font-size: 16pt; font-family: 나눔스퀘어_ac;"
         self.controlButtonStyle = "QPushButton{border : 0px;} QPushButton::pressed{background-color : black;} QPushButton::hover{border : 2px solid black}"
         self.thumbNailButtonStyle = "QPushButton{border : 0px;} QPushButton::pressed{background-color : black;} QPushButton::hover{border : 2px solid #D83030}"
@@ -326,7 +326,6 @@ class Ui_MainWindow(object):
         self.videoTitle.setGeometry(QtCore.QRect(30,790,621,71))
         self.videoTitle.setFocusPolicy(QtCore.Qt.NoFocus)
         self.videoTitle.setStyleSheet(self.inputLineStyle)
-
         #영상 control
         self.playButton = QtWidgets.QPushButton(self.playPage)
         self.playButton.setStyleSheet(self.controlButtonStyle)

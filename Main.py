@@ -276,6 +276,7 @@ class Main:
     #뒤로가기
     def goBackToPlaylist(self):
         self.playVideo.goBackToPlaylist = True
+        self.lastNum = 0
         ui.stackedWidget.setCurrentIndex(1)
         self.playVideo.initPlayer()        
 
@@ -336,6 +337,7 @@ class Main:
     #제목바꾸기
     def chageTitle(self):
         if len(self.playVideo.title) > 25:
+            
             ui.videoTitle.setText(self.playVideo.title[:35]+"...")
             ui.videoTitle2.setText(self.playVideo.title[:25]+"...")
         else:
