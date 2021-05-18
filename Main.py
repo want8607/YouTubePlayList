@@ -161,7 +161,7 @@ class Main:
         self.produceButton()
         for j in range (0,len(self.playlist.playlists)) :
             item = QtGui.QStandardItem(self.playlist.playlists[j][0])
-            item.setSizeHint(QtCore.QSize(640,80))        
+            item.setSizeHint(QtCore.QSize(740,80))        
             model.appendRow(item)
             ui.playlistView.setIndexWidget(item.index(),self.playlistWidget[j]) 
     
@@ -170,6 +170,7 @@ class Main:
 
         self.listButtons = []
         self.plusButtons = []
+        self.trashButtons = []
         self.playlistWidget = []
         for i in range(0,len(self.playlist.playlists)):
             self.playlistWidget.append(QtWidgets.QWidget())
@@ -178,16 +179,23 @@ class Main:
             self.listButtons[i].setCursor(ui.pointingHandCursor)
             self.listButtons[i].setStyleSheet(ui.listViewStlye)
             self.listButtons[i].setFocusPolicy(QtCore.Qt.NoFocus)
-            self.listButtons[i].setGeometry(QtCore.QRect(45, 10, 571, 61))
+            self.listButtons[i].setGeometry(QtCore.QRect(0, 10, 571, 61))
             self.listButtons[i].clicked.connect(lambda state,x = i:self.clickListButton(state,x))
             self.plusButtons.append(QtWidgets.QPushButton(self.playlistWidget[i]))
             self.plusButtons[i].setIcon(QtGui.QIcon(ui.plusIcon))
             self.plusButtons[i].setCursor(ui.pointingHandCursor)
             self.plusButtons[i].setStyleSheet(ui.listViewStlye)
             self.plusButtons[i].setFocusPolicy(QtCore.Qt.NoFocus)
-            self.plusButtons[i].setGeometry(QtCore.QRect(620, 10, 71, 61))
+            self.plusButtons[i].setGeometry(QtCore.QRect(575, 10, 71, 61))
             self.plusButtons[i].clicked.connect(lambda state,x = i: self.clickPlusButton(state,x))
-            
+            self.trashButtons.append(QtWidgets.QPushButton(self.playlistWidget[i]))
+            self.trashButtons[i].setIcon(QtGui.QIcon(ui.trashIcon))
+            self.trashButtons[i].setIconSize(QtCore.QSize(60,60))
+            self.trashButtons[i].setCursor(ui.pointingHandCursor)
+            self.trashButtons[i].setStyleSheet(ui.listViewStlye)
+            self.trashButtons[i].setFocusPolicy(QtCore.Qt.NoFocus)
+            self.trashButtons[i].setGeometry(QtCore.QRect(650, 10, 71, 61))
+            self.trashButtons[i].clicked.connect(lambda state,x = i: self.clickTrashButton(state,x))
             
     
     #영상 추가창
@@ -213,7 +221,26 @@ class Main:
             self.playlist_alarm("영상이 추가되었습니다")
             ui.addUrlWidget_name.setText('')
     
+    #재생목록 삭제창
+    def clickTrashButton(self,state,m):
+        self.deleteWindow(False)
+        self.playlistName = self.playlist.playlists[m][0]
+        ui.delete_okButton.clicked.connect(lambda:self.deleteAdmit(self.playlistName))
+        ui.delete_noButton.clicked.connect(self.cancelDelete)
+        
+    def deleteAdmit(self,playlistName):
+        self.playlist.deletePlaylist(self.id,playlistName)
+        self.showList()
+        self.deleteWindow(True)
 
+    def cancelDelete(self):
+        self.deleteWindow(True)
+
+    def deleteWindow(self,hidden):
+        ui.opacityWidget2.setHidden(hidden)
+        ui.deleteWidget.setHidden(hidden)
+        
+    #재생목록선택
     def clickListButton(self,state,index2):
         
         self.playlistName = self.playlist.playlists[index2][0]

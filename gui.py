@@ -14,8 +14,9 @@ class Ui_MainWindow(object):
         self.opcityBackgroundColor = "background-color: black;"
         self.noticeStyle = "color: white; font-size:16pt; font-family: 나눔스퀘어_ac;"
         self.pixmap = QtGui.QPixmap('picture/22.png')
-        self.listViewStlye = "font-size:16pt; font-family: 나눔스퀘어_ac; background-color:white;"
+        self.listViewStlye = "QPushButton{font-size:16pt; font-family: 나눔스퀘어_ac; background-color:white;} QPushButton::hover{font-size:16pt; font-family: 나눔스퀘어_ac; background-color:white; border : 2px solid #D83030}"
         self.plusIcon = QtGui.QPixmap("picture/plus.png")
+        self.trashIcon = QtGui.QPixmap("picture/trash.png")
         self.loadingGif = QtGui.QMovie("picture/loading.gif")
         self.playButtonIcon = QtGui.QPixmap("picture/재생.png")
         self.pauseButtonIcon = QtGui.QPixmap("picture/정지.png")
@@ -194,7 +195,7 @@ class Ui_MainWindow(object):
         self.playlistLogo.setPixmap(self.pixmap.scaled(self.playlistLogo.size()))
 
         self.playlistView = QtWidgets.QListView(self.playlistPage)
-        self.playlistView.setGeometry(QtCore.QRect(435,150,730,561))
+        self.playlistView.setGeometry(QtCore.QRect(435,180,801,561))
         self.playlistView.setStyleSheet(self.pageBackgroundColor+"border:#404040")
         
 
@@ -256,6 +257,31 @@ class Ui_MainWindow(object):
         self.addUrlWidget_add.setFocusPolicy(QtCore.Qt.NoFocus)
         self.addUrlWidget_add.setText("영상추가")
 
+        # 삭제 알림창
+        self.deleteWidget = QtWidgets.QWidget(self.playlistPage)
+        self.deleteWidget.setGeometry(QtCore.QRect(450,290,701,270))
+        self.deleteWidget.setStyleSheet(self.alarmBackgroundColor)
+        self.deleteWidget.setHidden(True)
+        
+        self.delete_okButton = QtWidgets.QPushButton(self.deleteWidget)
+        self.delete_okButton.setCursor(self.pointingHandCursor)
+        self.delete_okButton.setGeometry(QtCore.QRect(200,200,121,40))
+        self.delete_okButton.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.delete_okButton.setStyleSheet(self.buttonStyle)
+        self.delete_okButton.setText("삭제")
+
+        self.delete_noButton = QtWidgets.QPushButton(self.deleteWidget)
+        self.delete_noButton.setCursor(self.pointingHandCursor)
+        self.delete_noButton.setGeometry(QtCore.QRect(370,200,121,40))
+        self.delete_noButton.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.delete_noButton.setStyleSheet(self.buttonStyle)
+        self.delete_noButton.setText("취소")
+
+        self.delete_text = QtWidgets.QLabel(self.deleteWidget)
+        self.delete_text.setGeometry(QtCore.QRect(140,20,421,61))
+        self.delete_text.setText("삭제 하시겠습니까?")
+        self.delete_text.setStyleSheet(self.noticeStyle)
+        self.delete_text.setAlignment(QtCore.Qt.AlignCenter)
         #알림창
         self.addList_alarm = QtWidgets.QWidget(self.playlistPage)
         self.addList_alarm.setGeometry(QtCore.QRect(450,290,701,270))

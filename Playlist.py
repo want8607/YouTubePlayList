@@ -26,4 +26,9 @@ class Playlist:
 
         self.cur.execute("INSERT INTO video VALUES('"+id+"','"+playlistName+"','"+url+"');")
         self.conn.commit()
+
+    def deletePlaylist(self,id,playlistName):
+        self.cur.execute("DELETE FROM playlist WHERE id ='"+id+"' AND playlistName ='"+playlistName+"';")
+        self.conn.commit()
+
         
