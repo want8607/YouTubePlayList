@@ -1,5 +1,3 @@
-from os import get_inheritable, terminal_size
-from re import I
 import sys
 import urllib
 from vlc import State
@@ -11,7 +9,6 @@ from Login import Login
 from Registration import Registration
 from Playlist import Playlist
 from PlayVideo import PlayVideo
-import time
 
 
 class Main:
@@ -68,7 +65,9 @@ class Main:
     def registrate(self):
 
         regist_id = ui.regist_idInput.text()
+        noBlank_id = "".join(regist_id.split())
         regist_pass = ui.regist_passInput.text()
+        noBlank_pass = "".join(regist_pass.split())
         regist_pass2 = ui.regist_passInput2.text()
 
         registration = Registration(self.conn)
@@ -76,6 +75,8 @@ class Main:
 
         if regist_id =='' or regist_pass =='':
             self.regist_alarm("아이디 비밀번호를 입력해주세요")
+        elif regist_id != noBlank_id or regist_pass != noBlank_pass:
+            self.regist_alarm("아이디 혹은 비밀번호에 공백이 포함되어있습니다.")
         else:
             if registration.checkWantIdResult == True:
                 self.regist_alarm("아이디 중복체크를 다시 해주세요")
@@ -174,12 +175,14 @@ class Main:
             self.playlistWidget.append(QtWidgets.QWidget())
             self.listButtons.append(QtWidgets.QPushButton(self.playlistWidget[i]))
             self.listButtons[i].setText(self.playlist.playlists[i][0])
+            self.listButtons[i].setCursor(ui.pointingHandCursor)
             self.listButtons[i].setStyleSheet(ui.listViewStlye)
             self.listButtons[i].setFocusPolicy(QtCore.Qt.NoFocus)
             self.listButtons[i].setGeometry(QtCore.QRect(45, 10, 571, 61))
             self.listButtons[i].clicked.connect(lambda state,x = i:self.clickListButton(state,x))
             self.plusButtons.append(QtWidgets.QPushButton(self.playlistWidget[i]))
             self.plusButtons[i].setIcon(QtGui.QIcon(ui.plusIcon))
+            self.plusButtons[i].setCursor(ui.pointingHandCursor)
             self.plusButtons[i].setStyleSheet(ui.listViewStlye)
             self.plusButtons[i].setFocusPolicy(QtCore.Qt.NoFocus)
             self.plusButtons[i].setGeometry(QtCore.QRect(620, 10, 71, 61))
@@ -260,6 +263,8 @@ class Main:
             pixmap = QtGui.QPixmap(image.scaled(232,131))
             icon = QtGui.QIcon(pixmap)
             self.thumbnailButtons[m].setIcon(icon)
+            self.thumbnailButtons[m].setCursor(ui.pointingHandCursor)
+            self.thumbnailButtons[m].setStyleSheet(ui.controlButtonStyle)
             self.thumbnailButtons[m].setFocusPolicy(QtCore.Qt.NoFocus)
             self.thumbnailButtons[m].setIconSize(QtCore.QSize(232,131))
             self.thumbnailButtons[m].clicked.connect(lambda state, x = m: self.playVideo.choiceVideo(state,x))
@@ -312,7 +317,6 @@ class Main:
     def clickLastButton(self):
         self.playVideo.clickLastButton()
 
-    #ui만 바꾸기    
     #재생목록 삭제
     #비디오 삭제
 if __name__ == "__main__":

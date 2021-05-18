@@ -16,7 +16,7 @@ class KeyBoard:
     def controlVideoWithKeyBoard(self,key):
         
         if key == keyboard.Key.left :
-            print(str(self.player.get_time()))
+            
             self.player.set_time(self.player.get_time()-10000)
         elif key == keyboard.Key.right :
             self.player.set_time(self.player.get_time()+10000)
