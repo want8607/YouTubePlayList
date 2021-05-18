@@ -28,7 +28,7 @@ class PlayVideo(threading.Thread,QtCore.QObject):
         self.selectedNum = 0
         self.lastClicked = False
         self.playingVideoNum = 0
-
+        
     def run(self):
         instance = vlc.Instance()
         self.player = instance.media_player_new()
@@ -161,3 +161,9 @@ class PlayVideo(threading.Thread,QtCore.QObject):
 
     def clickLastButton(self):
         self.lastClicked = True
+
+    def pause(self):
+        self.player.pause()
+
+    def play(self):
+        self.player.play()

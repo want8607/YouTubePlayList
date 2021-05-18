@@ -109,13 +109,29 @@ class Main:
         ui.addListWidget_add.clicked.connect(self.addPlaylist)
         ui.addUrlWidget_close.clicked.connect(lambda: self.addUrlWindow(True))
         ui.goBackToPlaylistButton.clicked.connect(self.goBackToPlaylist)
+        ui.addUrlWidget_add.clicked.connect(self.clickAddUrlButton)
+        ui.addList_okButton.clicked.connect(lambda : ui.addList_alarm.setHidden(True))
+        ui.delete_okButton.clicked.connect(lambda:self.deleteAdmit(self.playlistName))
+        ui.delete_noButton.clicked.connect(self.cancelDelete)
         self.playVideo = PlayVideo(self.conn)
         self.playVideo.setDaemon(True)
         self.playVideo.goBackToPlaylist = True
         self.playVideo.start()
         self.playVideo.finished.connect(self.endLoading)
         self.playVideo.played.connect(self.playingChange)
+        ui.minimizeButton.clicked.connect(self.clickMiniButton)
+        ui.volumButton.clicked.connect(self.clickVolumButton)
+        ui.maximizeButton.clicked.connect(self.clickMaxiButton)
+        ui.nextButton.clicked.connect(self.clickNextButton)
+        ui.lastButton.clicked.connect(self.clickLastButton)
+        ui.pauseButton.clicked.connect(self.playVideo.pause)
+        ui.playButton.clicked.connect(self.playVideo.play)
+        ui.volumslider.valueChanged.connect(self.playVideo.changeVolum)
+        #최소화창    
+        ui.pauseButton2.clicked.connect(self.playVideo.pause)
+        ui.playButton2.clicked.connect(self.playVideo.play)
         
+        self.volumeClicked = False
     #로그아웃
     def logout(self):
 
@@ -150,7 +166,7 @@ class Main:
 
         ui.addList_alarm.setHidden(False)
         ui.addList_text.setText(text)
-        ui.addList_okButton.clicked.connect(lambda : ui.addList_alarm.setHidden(True))
+        
     
     #플레이리스트 LISTVIEW
     def showList(self):
@@ -200,19 +216,17 @@ class Main:
     
     #영상 추가창
     def addUrlWindow(self,hidden):
-
         ui.opacityWidget2.setHidden(hidden)
         ui.addUrlWidget.setHidden(hidden)
         ui.addUrlWidget_name.setText('')
 
     def clickPlusButton(self,state,index1):
-
         self.addUrlWindow(False)
         self.playlistName = self.playlist.playlists[index1][0]
-        ui.addUrlWidget_add.clicked.connect(self.clickAddUrlButton)
+        
 
     def clickAddUrlButton(self):
-
+        
         url = ui.addUrlWidget_name.text()
         if url == '':
             self.playlist_alarm("url을 입력하세요")
@@ -223,10 +237,10 @@ class Main:
     
     #재생목록 삭제창
     def clickTrashButton(self,state,m):
+        print(88)
         self.deleteWindow(False)
         self.playlistName = self.playlist.playlists[m][0]
-        ui.delete_okButton.clicked.connect(lambda:self.deleteAdmit(self.playlistName))
-        ui.delete_noButton.clicked.connect(self.cancelDelete)
+        
         
     def deleteAdmit(self,playlistName):
         self.playlist.deletePlaylist(self.id,playlistName)
@@ -258,7 +272,7 @@ class Main:
         self.showThumbnail()
         ui.stackedWidget.setCurrentIndex(2)
         ui.loadingWidget.setHidden(True)
-        self.controlButton()
+        
         
 #동영상 재생 페이지 
 
@@ -311,21 +325,7 @@ class Main:
         self.thumbnailButtons[x].setStyleSheet(ui.thumbNailButtonStyle2)
 
     #조작버튼
-    def controlButton(self):
-        ui.pauseButton.clicked.connect(self.playVideo.player.pause)
-        ui.playButton.clicked.connect(self.playVideo.player.play)
-        self.volumeClicked = False
-        ui.volumButton.clicked.connect(self.clickVolumButton)
-        ui.volumslider.valueChanged.connect(self.playVideo.changeVolum)
-        ui.minimizeButton.clicked.connect(self.clickMiniButton)
-        #최소화창    
-        ui.pauseButton2.clicked.connect(self.playVideo.player.pause)
-        ui.playButton2.clicked.connect(self.playVideo.player.play)
-        ui.maximizeButton.clicked.connect(self.clickMaxiButton)
-        ui.nextButton.clicked.connect(self.clickNextButton)
-        ui.lastButton.clicked.connect(self.clickLastButton)
-        
-
+    
     def clickVolumButton(self):
         if self.volumeClicked == False:
             ui.volumslider.setHidden(False)
