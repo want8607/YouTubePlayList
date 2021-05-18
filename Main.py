@@ -18,7 +18,7 @@ class Main:
         self.loginPage()
         self.playlistPage()
         self.playlist = Playlist(self.conn)
-        
+        self.lastNum = 0
 
 #데이터베이스 연결    
 
@@ -114,7 +114,7 @@ class Main:
         self.playVideo.goBackToPlaylist = True
         self.playVideo.start()
         self.playVideo.finished.connect(self.endLoading)
-        self.playVideo.played.connect(self.chageTitle)
+        self.playVideo.played.connect(self.playingChange)
         
     #로그아웃
     def logout(self):
@@ -187,6 +187,7 @@ class Main:
             self.plusButtons[i].setFocusPolicy(QtCore.Qt.NoFocus)
             self.plusButtons[i].setGeometry(QtCore.QRect(620, 10, 71, 61))
             self.plusButtons[i].clicked.connect(lambda state,x = i: self.clickPlusButton(state,x))
+            
             
     
     #영상 추가창
@@ -264,10 +265,22 @@ class Main:
             icon = QtGui.QIcon(pixmap)
             self.thumbnailButtons[m].setIcon(icon)
             self.thumbnailButtons[m].setCursor(ui.pointingHandCursor)
-            self.thumbnailButtons[m].setStyleSheet(ui.controlButtonStyle)
+            if m == 0:
+                self.thumbnailButtons[m].setStyleSheet(ui.thumbNailButtonStyle2)
+            else:    
+                self.thumbnailButtons[m].setStyleSheet(ui.thumbNailButtonStyle)
             self.thumbnailButtons[m].setFocusPolicy(QtCore.Qt.NoFocus)
             self.thumbnailButtons[m].setIconSize(QtCore.QSize(232,131))
-            self.thumbnailButtons[m].clicked.connect(lambda state, x = m: self.playVideo.choiceVideo(state,x))
+            self.thumbnailButtons[m].clicked.connect(lambda state,x = m:self.playVideo.choiceVideo(state,x))
+    
+    def playingChange(self):
+        self.clickThumbnailButton(self.playVideo.playingVideoNum)
+        self.chageTitle()
+
+    def clickThumbnailButton(self,x):
+        self.thumbnailButtons[self.lastNum].setStyleSheet(ui.thumbNailButtonStyle)
+        self.lastNum = x
+        self.thumbnailButtons[x].setStyleSheet(ui.thumbNailButtonStyle2)
 
     #조작버튼
     def controlButton(self):
@@ -295,10 +308,12 @@ class Main:
 
     #제목바꾸기
     def chageTitle(self):
-        if len(self.playVideo.title) > 23:
-            ui.videoTitle.setText(self.playVideo.title[:23]+"...")
+        if len(self.playVideo.title) > 25:
+            ui.videoTitle.setText(self.playVideo.title[:35]+"...")
+            ui.videoTitle2.setText(self.playVideo.title[:25]+"...")
         else:
             ui.videoTitle.setText(self.playVideo.title)
+            ui.videoTitle2.setText(self.playVideo.title)
     #최소화
     def clickMiniButton(self):
         ui.MainWindow.hide()
@@ -319,6 +334,7 @@ class Main:
 
     #재생목록 삭제
     #비디오 삭제
+
 if __name__ == "__main__":
     
     app = QtWidgets.QApplication(sys.argv)
@@ -328,3 +344,5 @@ if __name__ == "__main__":
     
     main = Main()
     sys.exit(app.exec_())
+
+    

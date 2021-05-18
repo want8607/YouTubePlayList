@@ -6,6 +6,8 @@ class Ui_MainWindow(object):
 
         self.buttonStyle = "color: white;background-color: #D83030; font-size: 16pt; font-family: 나눔스퀘어_ac;"
         self.controlButtonStyle = "QPushButton{border : 0px;} QPushButton::pressed{background-color : black;} QPushButton::hover{border : 2px solid black}"
+        self.thumbNailButtonStyle = "QPushButton{border : 0px;} QPushButton::pressed{background-color : black;} QPushButton::hover{border : 2px solid #D83030}"
+        self.thumbNailButtonStyle2 = "background-color: #D83030;"
         self.inputLineStyle = "color: black; background-color: white; font-size: 16pt; font-family: 나눔스퀘어_ac;"        
         self.pageBackgroundColor = "background-color: #404040;"
         self.alarmBackgroundColor = "background-color:black;"
@@ -25,7 +27,7 @@ class Ui_MainWindow(object):
         self.windowIcon = QtGui.QIcon("picture/windowIcon.png")
         self.title = "YouTubePlayer"
         self.pointingHandCursor = QtGui.QCursor(QtCore.Qt.PointingHandCursor)
-        
+
     def setupUi(self):
         self.MainWindow = QtWidgets.QMainWindow()
         self.MainWindow.setObjectName("MainWindow")
@@ -294,34 +296,39 @@ class Ui_MainWindow(object):
         self.thumbnailListView.setGeometry(QtCore.QRect(1325,100,271,771))
         self.thumbnailListView.setStyleSheet(self.pageBackgroundColor+"border:#404040")
 
+        self.videoTitle = QtWidgets.QLabel(self.playPage)
+        self.videoTitle.setGeometry(QtCore.QRect(30,790,621,71))
+        self.videoTitle.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.videoTitle.setStyleSheet(self.inputLineStyle)
+
         #영상 control
         self.playButton = QtWidgets.QPushButton(self.playPage)
         self.playButton.setStyleSheet(self.controlButtonStyle)
         self.playButton.setCursor(self.pointingHandCursor)
-        self.playButton.setGeometry(QtCore.QRect(590,770,60,60))
+        self.playButton.setGeometry(QtCore.QRect(690,790,71,71))
         self.playButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.playButton.setIcon(QtGui.QIcon(self.playButtonIcon))
-        self.playButton.setIconSize(QtCore.QSize(100,100))
+        self.playButton.setIconSize(QtCore.QSize(120,120))
 
         self.pauseButton = QtWidgets.QPushButton(self.playPage)
         self.pauseButton.setStyleSheet(self.controlButtonStyle)
         self.pauseButton.setCursor(self.pointingHandCursor)
-        self.pauseButton.setGeometry(QtCore.QRect(670,770,60,60))
+        self.pauseButton.setGeometry(QtCore.QRect(770,790,71,71))
         self.pauseButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.pauseButton.setIcon(QtGui.QIcon(self.pauseButtonIcon))
-        self.pauseButton.setIconSize(QtCore.QSize(100,100))
+        self.pauseButton.setIconSize(QtCore.QSize(120,120))
 
         self.volumButton = QtWidgets.QPushButton(self.playPage)
         self.volumButton.setStyleSheet(self.controlButtonStyle)
         self.volumButton.setCursor(self.pointingHandCursor)
-        self.volumButton.setGeometry(QtCore.QRect(1170,770,60,60))
+        self.volumButton.setGeometry(QtCore.QRect(1150,790,71,71))
         self.volumButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.volumButton.setIcon(QtGui.QIcon(self.volumButtonIcon))
-        self.volumButton.setIconSize(QtCore.QSize(100,100))
+        self.volumButton.setIconSize(QtCore.QSize(120,120))
 
         self.volumslider = QtWidgets.QSlider(self.playPage)
         self.volumButton.setCursor(self.pointingHandCursor)
-        self.volumslider.setGeometry(QtCore.QRect(1190,600,22,160))
+        self.volumslider.setGeometry(QtCore.QRect(1170,620,31,160))
         self.volumslider.setRange(0,100)
         self.volumslider.setFocusPolicy(QtCore.Qt.NoFocus)
         self.volumslider.setHidden(True)
@@ -330,10 +337,10 @@ class Ui_MainWindow(object):
         self.minimizeButton = QtWidgets.QPushButton(self.playPage)
         self.minimizeButton.setStyleSheet(self.controlButtonStyle)
         self.minimizeButton.setCursor(self.pointingHandCursor)
-        self.minimizeButton.setGeometry(QtCore.QRect(1240,770,60,60))
+        self.minimizeButton.setGeometry(QtCore.QRect(1240,790,71,71))
         self.minimizeButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.minimizeButton.setIcon(QtGui.QIcon(self.minimizeButtonIcon))
-        self.minimizeButton.setIconSize(QtCore.QSize(100,100))
+        self.minimizeButton.setIconSize(QtCore.QSize(120,120))
 
         self.goBackToPlaylistButton = QtWidgets.QPushButton(self.playPage)
         self.goBackToPlaylistButton.setCursor(self.pointingHandCursor)
@@ -345,8 +352,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.playPage)
         self.MainWindow.setCentralWidget(self.centralwidget)
 
-        # QtCore.QMetaObject.connectSlotsByName(self.MainWindow)        
-
         #최소화화면
         self.MainWindow2 = QtWidgets.QMainWindow()
         self.MainWindow2.setWindowIcon(self.windowIcon)
@@ -357,10 +362,10 @@ class Ui_MainWindow(object):
         self.centralwidget2 = QtWidgets.QWidget(self.MainWindow2)
         self.centralwidget2.setGeometry(QtCore.QRect(0,0,821,121))
         
-        self.videoTitle = QtWidgets.QLabel(self.centralwidget2)
-        self.videoTitle.setGeometry(QtCore.QRect(10,34,381,51))
-        self.videoTitle.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.videoTitle.setStyleSheet(self.inputLineStyle)
+        self.videoTitle2 = QtWidgets.QLabel(self.centralwidget2)
+        self.videoTitle2.setGeometry(QtCore.QRect(10,34,381,51))
+        self.videoTitle2.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.videoTitle2.setStyleSheet(self.inputLineStyle)
     
         self.playButton2 = QtWidgets.QPushButton(self.centralwidget2)
         self.playButton2.setStyleSheet(self.controlButtonStyle)
@@ -368,7 +373,7 @@ class Ui_MainWindow(object):
         self.playButton2.setGeometry(QtCore.QRect(500,30,60,60))
         self.playButton2.setFocusPolicy(QtCore.Qt.NoFocus)
         self.playButton2.setIcon(QtGui.QIcon(self.playButtonIcon))
-        self.playButton2.setIconSize(QtCore.QSize(100,100))
+        self.playButton2.setIconSize(QtCore.QSize(120,120))
 
         self.pauseButton2 = QtWidgets.QPushButton(self.centralwidget2)
         self.pauseButton2.setStyleSheet(self.controlButtonStyle)
@@ -395,7 +400,7 @@ class Ui_MainWindow(object):
         self.nextButton.setIconSize(QtCore.QSize(100,100))
 
         self.maximizeButton = QtWidgets.QPushButton(self.centralwidget2)
-        self.minimizeButton.setStyleSheet(self.controlButtonStyle)
+        self.maximizeButton.setStyleSheet(self.controlButtonStyle)
         self.maximizeButton.setCursor(self.pointingHandCursor)
         self.maximizeButton.setGeometry(QtCore.QRect(740,30,60,60))
         self.maximizeButton.setFocusPolicy(QtCore.Qt.NoFocus)

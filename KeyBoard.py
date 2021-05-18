@@ -1,4 +1,5 @@
 from pynput import keyboard
+from win32gui import GetWindowText, GetForegroundWindow
 
 class KeyBoard:
     def __init__(self,player):
@@ -7,8 +8,10 @@ class KeyBoard:
         self.player = player
 
     def on_press(self,key):
-
-        self.controlVideoWithKeyBoard(key)
+        current_window = GetWindowText(GetForegroundWindow())
+        desired_window_name = "YouTubePlayer"
+        if current_window == desired_window_name:
+            self.controlVideoWithKeyBoard(key)
 
     def on_release(self,key):
         pass
@@ -25,3 +28,4 @@ class KeyBoard:
 
     def getKeyBoard(self):
         self.getKeyboard.start()
+    
